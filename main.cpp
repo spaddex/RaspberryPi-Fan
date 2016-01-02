@@ -37,5 +37,4 @@ int grader(){
 	x = atoi(temp_str.c_str());
 	cout << "Variablen x är " << x << endl;
 	return x;
-	main();
 }
