@@ -29,7 +29,7 @@ int main()
 }
 
 int grader(){
-	//Följande kodblock läser graderna :)
+	//Följande kodblock läser graderna
 	int x;
 	std::ifstream input_f("/sys/devices/virtual/thermal/thermal_zone0/temp");
 	std::string temp_str;
