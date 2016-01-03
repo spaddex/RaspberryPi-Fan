@@ -4,37 +4,41 @@
 #include <string>
 #include <chrono>
 #include <thread>
+
+#define FAN 1
+
 using namespace std;
 
-int grader();
-int wiringPiSetup (void) ; //ser till att wiring.h laddas
-int main()
-{
-	int pinNumber=18;
+int readTemp();
 
 
-    while(grader()>35000){
-		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-		cout << "Det är " << grader()/1000 << " grader" << endl;
-		pinMode(pinNumber,OUTPUT);
-		digitalWrite(pinNumber,0);}
-		grader();
-
-	while(grader()<35000){
-		std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-		cout << "Det är " << grader()/1000 << " grader" << endl;
-		pinMode(pinNumber,OUTPUT);
-		digitalWrite(pinNumber,1);}
-		grader();
+int main(void){
+	
+	int pinNumber=1; //Which pin/GPIO to use, pin1=GPIO18, see http://wiringpi.com/pins/
+	wiringPiSetup(); //Initializing the lwiringPi lib
+	pinMode(pinNumber,OUTPUT); //reading Pin-number + telling it to use output
+	
+	for(;;){
+		readTemp();
+		
+	while(readTemp()>=36000){ //run when temp >= 36C (36*1000, so 38,5C = 385000 for example)
+		std::this_thread::sleep_for(std::chrono::milliseconds(10000)); //wait 10 seconds
+		digitalWrite(FAN,HIGH); //start fan
+		}
+		
+	while(readTemp()<36000){
+		std::this_thread::sleep_for(std::chrono::milliseconds(10000)); //wait 10 seconds
+		digitalWrite(FAN,LOW); //turn off fan
+		}
+	}
 }
 
-int grader(){
-	//Följande kodblock läser graderna
-	int x;
+int readTemp(){
+
 	std::ifstream input_f("/sys/devices/virtual/thermal/thermal_zone0/temp");
-	std::string temp_str;
-	std::getline(input_f,temp_str);
-	x = atoi(temp_str.c_str());
-	cout << "Variablen x är " << x << endl;
-	return x;
+	int temp;
+	input_f >> temp;
+	return temp;
+	input_f.close();
+	//cout << "Variablen x är " << x << endl;
 }
