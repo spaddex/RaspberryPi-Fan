@@ -1,5 +1,5 @@
 # RaspberryPi-Fan
-Fan activated when Raspberry reaches a certain temperature
+Fan activated when Raspberry reaches a certain temperature written in c++
 
 This was built on a Raspberry Pi running Kali Linux, but it might work on other distros as well. Might have to change the path
 file which reads the temperature though. 
