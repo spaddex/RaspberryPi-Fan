@@ -21,6 +21,6 @@ login to your pi-user
 
 **sudo nano /etc/rc.local** 
 
-before the **exit 0** line, add python3 /path/to/theScript.py and save 
+before the **exit 0** line, add **python3 /path/to/theScript.py** and save 
 
 Reboot 
